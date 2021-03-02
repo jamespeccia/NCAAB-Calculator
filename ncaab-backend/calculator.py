@@ -1,12 +1,28 @@
 import pandas as pd
 
-def calculate(away_team, home_team):
+df = pd.DataFrame()
+pyth_exponent = 11.5
+hcao = 1
+hcad = 1
 
-    df = pd.read_csv('kenpom_rankings.csv')
+def setM(o, d):
+    global hcao
+    global hcad
+
+    hcao = o
+    hcad = d
+
+def getM():
+    global hcao
+    global hcad
+
+    return [hcao, hcad]
+
+def updateCache():
+    df = pd.read_csv('kenpom.csv')
     df.set_index("Team" , inplace = True)
-    pyth_exponent = 11.5
-    hcao = 1.007
-    hcad = 0.993
+    
+def calculate(away_team, home_team):
 
     #variables
     away_adjo = df.loc[away_team, 'AdjO'] * hcad
@@ -48,3 +64,6 @@ def calculate(away_team, home_team):
     home_spread = away_predicted_score - home_predicted_score
 
     return round(away_predicted_score,2), round(home_predicted_score,2), round(away_win_percentage_game*100,2), round(home_win_percentage_game*100,2), round(total_score,2), round(home_spread,2)
+
+df = pd.read_csv('kenpom.csv')
+df.set_index("Team" , inplace = True)
